@@ -1,0 +1,16 @@
+FROM golang:1.24-alpine AS builder
+
+RUN apk add --no-cache git
+RUN go install github.com/rnubel/pgmgr@latest
+
+FROM alpine:3.19
+
+RUN apk add --no-cache postgresql-client
+
+COPY --from=builder /go/bin/pgmgr /usr/local/bin/pgmgr
+
+WORKDIR /app
+COPY .pgmgr.json .
+COPY db/ db/
+
+ENTRYPOINT ["pgmgr", "db", "migrate"]

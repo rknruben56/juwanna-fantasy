@@ -18,6 +18,21 @@ services:
       timeout: 5s
       retries: 5
 
+  migrate:
+    build:
+      context: .
+      dockerfile: Dockerfile.migrate
+    container_name: juwanna-fantasy-migrate
+    environment:
+      - PGMGR_HOST=postgres
+      - PGMGR_PORT=5432
+      - PGMGR_USERNAME=postgres
+      - PGMGR_PASSWORD=postgres
+      - PGMGR_DATABASE=juwanna_fantasy
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   api:
     build: .
     container_name: juwanna-fantasy-api
@@ -34,6 +49,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
 
 volumes:
   postgres_data:
