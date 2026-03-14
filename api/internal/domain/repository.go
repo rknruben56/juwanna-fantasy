@@ -42,3 +42,9 @@ type LeagueConfigRepository interface {
 	GetCurrentLeagueID(ctx context.Context) (string, error)
 	Set(ctx context.Context, seasonID int, sleeperLeagueID string) (*SleeperLeagueConfig, error)
 }
+
+type RivalryRepository interface {
+	GetHeadToHead(ctx context.Context, ownerID, opponentID int) (*HeadToHeadRecord, error)
+	GetAllRivalries(ctx context.Context, ownerID int) ([]HeadToHeadRecord, error)
+	GetMatchupHistory(ctx context.Context, ownerID, opponentID int) ([]MatchupHistoryEntry, error)
+}
