@@ -17,6 +17,9 @@ import (
 	"github.com/rs/zerolog/log"
 
 	"github.com/rknruben56/juwanna-fantasy/api/internal/config"
+	"github.com/rknruben56/juwanna-fantasy/api/internal/handler"
+	"github.com/rknruben56/juwanna-fantasy/api/internal/repository/postgres"
+	"github.com/rknruben56/juwanna-fantasy/api/internal/service"
 )
 
 func main() {
@@ -48,6 +51,15 @@ func main() {
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders: []string{"Accept", "Authorization", "Content-Type"},
 	}))
+
+	// Wire up repositories, service, and handlers
+	ownerRepo := postgres.NewOwnerRepo(pool)
+	seasonRepo := postgres.NewSeasonRepo(pool)
+	beltRepo := postgres.NewBeltRepo(pool)
+
+	svc := service.NewHistoricalService(ownerRepo, seasonRepo, beltRepo)
+	h := handler.New(svc)
+	h.RegisterRoutes(r)
 
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		if err := pool.Ping(r.Context()); err != nil {
