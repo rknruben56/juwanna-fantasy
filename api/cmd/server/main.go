@@ -20,6 +20,7 @@ import (
 	"github.com/rknruben56/juwanna-fantasy/api/internal/handler"
 	"github.com/rknruben56/juwanna-fantasy/api/internal/repository/postgres"
 	"github.com/rknruben56/juwanna-fantasy/api/internal/service"
+	"github.com/rknruben56/juwanna-fantasy/api/internal/sleeper"
 )
 
 func main() {
@@ -52,14 +53,28 @@ func main() {
 		AllowedHeaders: []string{"Accept", "Authorization", "Content-Type"},
 	}))
 
-	// Wire up repositories, service, and handlers
+	// Wire up repositories
 	ownerRepo := postgres.NewOwnerRepo(pool)
 	seasonRepo := postgres.NewSeasonRepo(pool)
 	beltRepo := postgres.NewBeltRepo(pool)
+	mappingRepo := postgres.NewMappingRepo(pool)
+	leagueConfigRepo := postgres.NewLeagueConfigRepo(pool)
 
-	svc := service.NewHistoricalService(ownerRepo, seasonRepo, beltRepo)
-	h := handler.New(svc)
+	// Historical service and handler
+	historicalSvc := service.NewHistoricalService(ownerRepo, seasonRepo, beltRepo)
+	h := handler.New(historicalSvc)
 	h.RegisterRoutes(r)
+
+	// Sleeper integration
+	cache := sleeper.NewCache()
+	sleeperClient := sleeper.NewClient(cache)
+	sleeperSvc := service.NewSleeperService(sleeperClient, mappingRepo, leagueConfigRepo, beltRepo, cfg.SleeperLeagueID)
+
+	liveHandler := handler.NewLiveHandler(sleeperSvc)
+	liveHandler.RegisterRoutes(r)
+
+	adminHandler := handler.NewAdminHandler(sleeperSvc)
+	adminHandler.RegisterRoutes(r)
 
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		if err := pool.Ping(r.Context()); err != nil {
