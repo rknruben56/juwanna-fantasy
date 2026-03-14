@@ -109,3 +109,62 @@ type BeltHistoryWithDetails struct {
 	Year       int    `json:"year"`
 	WeekNumber int    `json:"week_number"`
 }
+
+// Head-to-head and rivalry types
+
+type HeadToHeadRecord struct {
+	OwnerID            int     `json:"owner_id"`
+	OwnerName          string  `json:"owner_name"`
+	OpponentID         int     `json:"opponent_id"`
+	OpponentName       string  `json:"opponent_name"`
+	Wins               int     `json:"wins"`
+	Losses             int     `json:"losses"`
+	TotalGames         int     `json:"total_games"`
+	WinPct             float64 `json:"win_pct"`
+	TotalPointsFor     float64 `json:"total_points_for"`
+	TotalPointsAgainst float64 `json:"total_points_against"`
+}
+
+type MatchupHistoryEntry struct {
+	Season         int     `json:"season"`
+	Week           int     `json:"week"`
+	OwnerName      string  `json:"owner_name"`
+	OpponentName   string  `json:"opponent_name"`
+	PointsScored   float64 `json:"points_scored"`
+	OpponentPoints float64 `json:"opponent_points"`
+	IsPlayoff      bool    `json:"is_playoff"`
+	Result         string  `json:"result"` // "W", "L", "T"
+}
+
+type RivalrySummary struct {
+	HeadToHeadRecord
+	RecentMatchups []MatchupHistoryEntry `json:"recent_matchups"`
+}
+
+// Power rankings types
+
+type PowerRanking struct {
+	Rank            int     `json:"rank"`
+	OwnerID         *int    `json:"owner_id,omitempty"`
+	OwnerName       string  `json:"owner_name"`
+	Score           float64 `json:"score"`
+	Wins            int     `json:"wins"`
+	Losses          int     `json:"losses"`
+	PointsFor       float64 `json:"points_for"`
+	Streak          string  `json:"streak"`
+	WinPct          float64 `json:"win_pct"`
+}
+
+// Award projection types
+
+type AwardProjection struct {
+	AwardName   string                   `json:"award_name"`
+	Contenders  []AwardProjectionEntry   `json:"contenders"`
+}
+
+type AwardProjectionEntry struct {
+	OwnerID   *int    `json:"owner_id,omitempty"`
+	OwnerName string  `json:"owner_name"`
+	StatValue float64 `json:"stat_value"`
+	Rank      int     `json:"rank"`
+}

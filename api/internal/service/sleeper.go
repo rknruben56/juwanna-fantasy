@@ -37,9 +37,9 @@ func NewSleeperService(
 	}
 }
 
-// getLeagueID returns the current league ID from the database config,
+// GetLeagueID returns the current league ID from the database config,
 // falling back to the environment variable default.
-func (s *SleeperService) getLeagueID(ctx context.Context) (string, error) {
+func (s *SleeperService) GetLeagueID(ctx context.Context) (string, error) {
 	leagueID, err := s.leagueConfig.GetCurrentLeagueID(ctx)
 	if err == nil && leagueID != "" {
 		return leagueID, nil
@@ -77,7 +77,7 @@ func resolveOwnerName(roster sleeper.SleeperRoster, users map[string]sleeper.Sle
 
 // GetLiveMatchups returns formatted matchups for the current week.
 func (s *SleeperService) GetLiveMatchups(ctx context.Context) ([]domain.LiveMatchup, error) {
-	leagueID, err := s.getLeagueID(ctx)
+	leagueID, err := s.GetLeagueID(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -150,7 +150,7 @@ func (s *SleeperService) GetLiveMatchups(ctx context.Context) ([]domain.LiveMatc
 
 // GetLiveStandings returns current season standings from Sleeper.
 func (s *SleeperService) GetLiveStandings(ctx context.Context) ([]domain.LiveStanding, error) {
-	leagueID, err := s.getLeagueID(ctx)
+	leagueID, err := s.GetLeagueID(ctx)
 	if err != nil {
 		return nil, err
 	}

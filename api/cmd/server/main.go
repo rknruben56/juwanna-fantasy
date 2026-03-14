@@ -76,6 +76,12 @@ func main() {
 	adminHandler := handler.NewAdminHandler(sleeperSvc)
 	adminHandler.RegisterRoutes(r)
 
+	// Analytics (rivalries, power rankings, projections)
+	rivalryRepo := postgres.NewRivalryRepo(pool)
+	analyticsSvc := service.NewAnalyticsService(rivalryRepo, sleeperClient, sleeperSvc)
+	analyticsHandler := handler.NewAnalyticsHandler(analyticsSvc)
+	analyticsHandler.RegisterRoutes(r)
+
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		if err := pool.Ping(r.Context()); err != nil {
 			w.Header().Set("Content-Type", "application/json")
