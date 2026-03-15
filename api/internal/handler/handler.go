@@ -18,16 +18,12 @@ func New(svc *service.HistoricalService) *Handler {
 }
 
 func (h *Handler) RegisterRoutes(r chi.Router) {
-	r.Route("/api/v1", func(r chi.Router) {
-		r.Get("/owners", h.ListOwners)
-		r.Get("/owners/{id}/stats", h.GetOwnerStats)
-
-		r.Get("/seasons/{year}/standings", h.GetSeasonStandings)
-		r.Get("/seasons/{year}/awards", h.GetSeasonAwards)
-
-		r.Get("/belt/current", h.GetCurrentBeltHolder)
-		r.Get("/belt/leaderboard", h.GetBeltLeaderboard)
-	})
+	r.Get("/api/v1/owners", h.ListOwners)
+	r.Get("/api/v1/owners/{id}/stats", h.GetOwnerStats)
+	r.Get("/api/v1/seasons/{year}/standings", h.GetSeasonStandings)
+	r.Get("/api/v1/seasons/{year}/awards", h.GetSeasonAwards)
+	r.Get("/api/v1/belt/current", h.GetCurrentBeltHolder)
+	r.Get("/api/v1/belt/leaderboard", h.GetBeltLeaderboard)
 }
 
 func (h *Handler) ListOwners(w http.ResponseWriter, r *http.Request) {
