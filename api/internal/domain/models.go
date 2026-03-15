@@ -168,3 +168,26 @@ type AwardProjectionEntry struct {
 	StatValue float64 `json:"stat_value"`
 	Rank      int     `json:"rank"`
 }
+
+// Weekly digest types
+
+type WeeklyDigest struct {
+	Season           string            `json:"season"`
+	Week             int               `json:"week"`
+	Matchups         []DigestMatchup   `json:"matchups"`
+	Standings        []LiveStanding    `json:"standings"`
+	BeltStatus       *LiveBeltStatus   `json:"belt_status,omitempty"`
+	AwardProjections []AwardProjection `json:"award_projections,omitempty"`
+	PowerRankings    []PowerRanking    `json:"power_rankings,omitempty"`
+}
+
+type DigestMatchup struct {
+	LiveMatchup
+	HeadToHead *DigestH2H `json:"head_to_head,omitempty"`
+}
+
+type DigestH2H struct {
+	OwnerWins    int `json:"owner_wins"`
+	OpponentWins int `json:"opponent_wins"`
+	TotalGames   int `json:"total_games"`
+}

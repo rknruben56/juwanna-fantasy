@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -24,14 +25,30 @@ import (
 )
 
 func main() {
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-
 	cfg, err := config.Load()
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to load config")
 	}
 
-	pool, err := pgxpool.New(context.Background(), cfg.DatabaseDSN())
+	// Configure logging
+	level, err := zerolog.ParseLevel(strings.ToLower(cfg.LogLevel))
+	if err != nil {
+		level = zerolog.InfoLevel
+	}
+	zerolog.SetGlobalLevel(level)
+	if level == zerolog.DebugLevel {
+		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	}
+
+	// Configure database pool
+	poolConfig, err := pgxpool.ParseConfig(cfg.DatabaseDSN())
+	if err != nil {
+		log.Fatal().Err(err).Msg("failed to parse database config")
+	}
+	poolConfig.MaxConns = int32(cfg.DatabaseMaxConns)
+	poolConfig.MinConns = int32(cfg.DatabaseMinConns)
+
+	pool, err := pgxpool.NewWithConfig(context.Background(), poolConfig)
 	if err != nil {
 		log.Fatal().Err(err).Msg("failed to create database pool")
 	}
@@ -48,7 +65,7 @@ func main() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	r.Use(cors.Handler(cors.Options{
-		AllowedOrigins: []string{"*"},
+		AllowedOrigins: cfg.CORSOrigins(),
 		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders: []string{"Accept", "Authorization", "Content-Type"},
 	}))
@@ -82,6 +99,11 @@ func main() {
 	analyticsHandler := handler.NewAnalyticsHandler(analyticsSvc)
 	analyticsHandler.RegisterRoutes(r)
 
+	// Weekly digest
+	digestSvc := service.NewDigestService(sleeperSvc, analyticsSvc, rivalryRepo, sleeperClient)
+	digestHandler := handler.NewDigestHandler(digestSvc)
+	digestHandler.RegisterRoutes(r)
+
 	r.Get("/health", func(w http.ResponseWriter, r *http.Request) {
 		if err := pool.Ping(r.Context()); err != nil {
 			w.Header().Set("Content-Type", "application/json")
@@ -93,11 +115,15 @@ func main() {
 		w.Write([]byte(`{"status":"ok","db":"up"}`))
 	})
 
+	readTimeout := time.Duration(cfg.ReadTimeout) * time.Second
+	writeTimeout := time.Duration(cfg.WriteTimeout) * time.Second
+	shutdownTimeout := time.Duration(cfg.ShutdownTimeout) * time.Second
+
 	srv := &http.Server{
 		Addr:         fmt.Sprintf(":%d", cfg.ServerPort),
 		Handler:      r,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
+		ReadTimeout:  readTimeout,
+		WriteTimeout: writeTimeout,
 	}
 
 	go func() {
@@ -111,7 +137,7 @@ func main() {
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
 	defer cancel()
 
 	if err := srv.Shutdown(ctx); err != nil {
