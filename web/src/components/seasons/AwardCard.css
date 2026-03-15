@@ -1,0 +1,58 @@
+.award-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background-color: var(--surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  border: 1px solid var(--surface-hover);
+  transition: background-color 0.15s;
+}
+
+.award-card:hover {
+  background-color: var(--surface-hover);
+}
+
+.award-card--champion {
+  border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.15);
+  grid-column: 1 / -1;
+}
+
+.award-card--bottomfeeder {
+  border-color: var(--red);
+}
+
+.award-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  min-width: 0;
+}
+
+.award-card__name {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.award-card__owner {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.award-card--champion .award-card__owner {
+  color: var(--gold);
+}
+
+.award-card--bottomfeeder .award-card__owner {
+  color: var(--red);
+}
+
+.award-card__stat {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,31 @@
+.season-detail__back {
+  display: inline-block;
+  margin-bottom: var(--space-lg);
+  font-size: 0.9rem;
+}
+
+.season-detail__header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-2xl);
+}
+
+.season-detail__champion {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.season-detail__crown {
+  font-size: 1.5rem;
+}
+
+.season-detail__section {
+  margin-bottom: var(--space-2xl);
+}
+
+.season-detail__section h2 {
+  margin-bottom: var(--space-lg);
+}

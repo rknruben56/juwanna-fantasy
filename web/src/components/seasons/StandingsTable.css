@@ -1,0 +1,20 @@
+.standings-table {
+  background-color: var(--surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  overflow: hidden;
+}
+
+.standings-row--champion {
+  border-left: 3px solid var(--gold);
+  background-color: rgba(212, 175, 55, 0.08);
+}
+
+.standings-row--playoffs {
+  border-left: 3px solid var(--teal);
+}
+
+.standings-row--last {
+  border-left: 3px solid var(--red);
+  background-color: rgba(230, 57, 70, 0.06);
+}
