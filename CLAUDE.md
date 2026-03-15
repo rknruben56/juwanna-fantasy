@@ -11,8 +11,8 @@ Juwanna Fantasy is a website for a Fantasy Football League that tracks historica
 ### Database
 
 ```bash
-# Start PostgreSQL container
-cd api && docker compose up -d
+# Start all services (PostgreSQL, API, Web)
+docker compose up -d
 
 # Run migrations (requires pgmgr - https://github.com/rnubel/pgmgr)
 cd api && pgmgr migrate
