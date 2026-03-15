@@ -1,0 +1,20 @@
+.award-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.award-icon__emoji--sm { font-size: 1rem; }
+.award-icon__emoji--md { font-size: 1.5rem; }
+.award-icon__emoji--lg { font-size: 2rem; }
+
+.award-icon__label {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+.award-icon__label--champion { color: var(--gold); }
+.award-icon__label--juggernaut { color: var(--red); }
+.award-icon__label--cupcake { color: #f472b6; }
+.award-icon__label--bottomfeeder { color: #a16207; }
+.award-icon__label--unlucky { color: #a78bfa; }
