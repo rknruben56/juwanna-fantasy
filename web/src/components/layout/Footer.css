@@ -1,0 +1,14 @@
+.footer {
+  padding: var(--space-xl) 0;
+  margin-top: var(--space-3xl);
+  border-top: 1px solid var(--surface-hover);
+  text-align: center;
+}
+
+.footer-text {
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
