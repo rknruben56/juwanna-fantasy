@@ -1,0 +1,43 @@
+.badge {
+  display: inline-block;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: var(--radius-lg);
+  line-height: 1;
+}
+
+.badge--sm {
+  font-size: 0.625rem;
+  padding: 0.2em 0.6em;
+}
+
+.badge--md {
+  font-size: 0.75rem;
+  padding: 0.3em 0.75em;
+}
+
+.badge--gold {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--gold);
+}
+
+.badge--teal {
+  background: rgba(46, 196, 182, 0.15);
+  color: var(--teal);
+}
+
+.badge--red {
+  background: rgba(230, 57, 70, 0.15);
+  color: var(--red);
+}
+
+.badge--muted {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-muted);
+}
+
+.badge--default {
+  background: var(--surface-hover);
+  color: var(--text);
+}
