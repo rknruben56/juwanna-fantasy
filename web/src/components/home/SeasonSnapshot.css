@@ -1,0 +1,59 @@
+.season-snapshot {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.season-snapshot__row--playoffs {
+  border-left: 3px solid var(--teal);
+}
+
+.season-snapshot__awards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--surface-hover);
+}
+
+.season-snapshot__award {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: var(--surface-hover);
+  border-radius: var(--radius-sm);
+  padding: var(--space-xs) var(--space-sm);
+}
+
+.season-snapshot__award-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.season-snapshot__award-name {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.season-snapshot__award-owner {
+  font-family: var(--font-heading);
+  color: var(--text);
+  font-size: 0.9rem;
+}
+
+.season-snapshot__link {
+  display: block;
+  text-align: center;
+  margin-top: var(--space-lg);
+  color: var(--teal);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: opacity 0.2s;
+}
+
+.season-snapshot__link:hover {
+  opacity: 0.8;
+}

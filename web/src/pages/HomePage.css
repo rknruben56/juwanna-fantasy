@@ -1,0 +1,21 @@
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.home__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.home__heading {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--text);
+  text-transform: uppercase;
+  margin: 0;
+  padding-bottom: var(--space-xs);
+  border-bottom: 2px solid var(--surface-hover);
+}

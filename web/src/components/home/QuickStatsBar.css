@@ -1,0 +1,17 @@
+.quick-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-md);
+}
+
+@media (max-width: 768px) {
+  .quick-stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+  .quick-stats-bar {
+    grid-template-columns: 1fr;
+  }
+}
