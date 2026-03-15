@@ -1,0 +1,73 @@
+.belt-preview {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+}
+
+.belt-preview__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.belt-preview__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.belt-preview__rank {
+  font-family: var(--font-heading);
+  color: var(--text-muted);
+  width: 1.5rem;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.belt-preview__name {
+  font-family: var(--font-body);
+  color: var(--text);
+  width: 120px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.belt-preview__bar-track {
+  flex: 1;
+  height: 20px;
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.belt-preview__bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), #e8c547);
+  border-radius: var(--radius-sm);
+  transition: width 0.6s ease-out;
+  min-width: 4px;
+}
+
+.belt-preview__weeks {
+  font-family: var(--font-heading);
+  color: var(--gold);
+  width: 3rem;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.belt-preview__link {
+  display: block;
+  text-align: center;
+  margin-top: var(--space-lg);
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: opacity 0.2s;
+}
+
+.belt-preview__link:hover {
+  opacity: 0.8;
+}

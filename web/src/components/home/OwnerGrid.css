@@ -1,0 +1,61 @@
+.owner-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.owner-grid__card {
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  text-align: center;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  border: 1px solid transparent;
+}
+
+.owner-grid__card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-color: var(--teal);
+}
+
+.owner-grid__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--surface-hover);
+  color: var(--teal);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto var(--space-sm);
+}
+
+.owner-grid__name {
+  font-family: var(--font-heading);
+  color: var(--text);
+  font-size: 1.1rem;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.owner-grid__since {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-top: var(--space-xs);
+}
+
+@media (max-width: 768px) {
+  .owner-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+  .owner-grid {
+    grid-template-columns: 1fr;
+  }
+}
