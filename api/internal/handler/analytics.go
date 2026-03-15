@@ -17,12 +17,10 @@ func NewAnalyticsHandler(svc *service.AnalyticsService) *AnalyticsHandler {
 }
 
 func (h *AnalyticsHandler) RegisterRoutes(r chi.Router) {
-	r.Route("/api/v1", func(r chi.Router) {
-		r.Get("/owners/{id}/vs/{opponent_id}", h.GetHeadToHead)
-		r.Get("/owners/{id}/rivalries", h.GetAllRivalries)
-		r.Get("/rankings/power", h.GetPowerRankings)
-		r.Get("/projections/awards", h.GetAwardProjections)
-	})
+	r.Get("/api/v1/owners/{id}/vs/{opponent_id}", h.GetHeadToHead)
+	r.Get("/api/v1/owners/{id}/rivalries", h.GetAllRivalries)
+	r.Get("/api/v1/rankings/power", h.GetPowerRankings)
+	r.Get("/api/v1/projections/awards", h.GetAwardProjections)
 }
 
 func (h *AnalyticsHandler) GetHeadToHead(w http.ResponseWriter, r *http.Request) {

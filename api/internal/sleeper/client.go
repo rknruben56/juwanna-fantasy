@@ -99,9 +99,14 @@ type LeagueInfo struct {
 
 // SleeperUser represents a user in a Sleeper league.
 type SleeperUser struct {
-	UserID      string `json:"user_id"`
-	DisplayName string `json:"display_name"`
-	TeamName    string `json:"metadata,omitempty"`
+	UserID      string            `json:"user_id"`
+	DisplayName string            `json:"display_name"`
+	Metadata    *SleeperUserMeta  `json:"metadata,omitempty"`
+}
+
+// SleeperUserMeta contains optional user metadata from Sleeper.
+type SleeperUserMeta struct {
+	TeamName string `json:"team_name"`
 }
 
 // SleeperRoster represents a roster in a Sleeper league.

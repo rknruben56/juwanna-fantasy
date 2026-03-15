@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/rs/zerolog/log"
 	"github.com/rknruben56/juwanna-fantasy/api/internal/service"
 )
 
@@ -19,15 +20,14 @@ func NewDigestHandler(svc *service.DigestService) *DigestHandler {
 
 // RegisterRoutes registers digest routes on the router.
 func (h *DigestHandler) RegisterRoutes(r chi.Router) {
-	r.Route("/api/v1", func(r chi.Router) {
-		r.Get("/digest/weekly", h.GetWeeklyDigest)
-	})
+	r.Get("/api/v1/digest/weekly", h.GetWeeklyDigest)
 }
 
 // GetWeeklyDigest returns the combined weekly summary.
 func (h *DigestHandler) GetWeeklyDigest(w http.ResponseWriter, r *http.Request) {
 	digest, err := h.svc.GetWeeklyDigest(r.Context())
 	if err != nil {
+		log.Error().Err(err).Msg("failed to get weekly digest")
 		writeError(w, http.StatusInternalServerError, "failed to get weekly digest")
 		return
 	}
